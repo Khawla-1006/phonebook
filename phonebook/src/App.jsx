@@ -58,18 +58,6 @@ const App = () =>{
     setval(false)
   }
 
-  const phonebook = () =>{
-    console.log(val);
-
-      {  val
-        ? persons.map(person => <Person person={person} key={person.id}/> )
-        : persons.filter(person => person.name.toLowerCase() == filtered.toLowerCase())
-      }
-
-
-   }
-  
-
 
   return(
     <div>
@@ -108,15 +96,16 @@ const App = () =>{
         <div>
         <ul>
           {
-              // persons
-              // .filter(person => person.name.toLowerCase() == filter.toLowerCase())
-              // .map(person => 
-              //   <Person person={person} key={person.id}/>
-              // )
-        // val
-        // ? persons.map(person => <Person person={person} key={person.id}/> )
-        // : persons.filter(person => person.name.toLowerCase() == filtered.toLowerCase())
-phonebook()
+            persons.map(person =>{
+                  if(!val){    
+                    if(person.name.toLowerCase() == filtered.toLowerCase()){
+                      return(<Person person={person} key={person.id}/>)
+                    }
+                  }else{
+                    return(<Person person={person} key={person.id}/>)
+                  }
+               }
+            )
           }
           </ul>
         </div>
