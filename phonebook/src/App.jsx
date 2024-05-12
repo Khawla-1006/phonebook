@@ -3,14 +3,17 @@ import { useState } from 'react'
 const App = () =>{
 
   const [persons, setPersons] = useState([
-    { 
-      name: 'Arto Hellas',
-      number: '123-456-7890',
-      id : 1
-    }
+  
+      { name: 'Arto Hellas', number: '040-123456', id: 1 },
+      { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+      { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+      { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
+
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [filtered, setfiltered] = useState('')
+  const [val , setval] = useState(true)
 
 
   const addName = (event) =>{
@@ -50,12 +53,37 @@ const App = () =>{
     )
   }
 
+  const handlefilter = (event) =>{
+    setfiltered(event.target.value)
+    setval(false)
+  }
+
+  const phonebook = () =>{
+    console.log(val);
+
+      {  val
+        ? persons.map(person => <Person person={person} key={person.id}/> )
+        : persons.filter(person => person.name.toLowerCase() == filtered.toLowerCase())
+      }
+
+
+   }
+  
+
 
   return(
     <div>
       <h2>Phonebook</h2>
 
       <form>
+        <div>
+          filter shown with: <input 
+            value={filtered}
+            onChange={handlefilter}
+          />
+        </div>
+
+      <h2>add a new</h2>
         <div>
           name: <input
               value={newName}
@@ -69,19 +97,28 @@ const App = () =>{
               onChange={handleNumberChange}
           />
         </div>
+
         <div>
           <button type='submit' onClick={addName}>add</button>
-          <ul>
-          {persons.map(person => 
-            <Person person={person} key={person.id}/>
-          )}
-          </ul>
         </div>
+
       </form>
 
         <h2>Numbers</h2>
         <div>
-           debug : {newName}
+        <ul>
+          {
+              // persons
+              // .filter(person => person.name.toLowerCase() == filter.toLowerCase())
+              // .map(person => 
+              //   <Person person={person} key={person.id}/>
+              // )
+        // val
+        // ? persons.map(person => <Person person={person} key={person.id}/> )
+        // : persons.filter(person => person.name.toLowerCase() == filtered.toLowerCase())
+phonebook()
+          }
+          </ul>
         </div>
     </div>
   )
