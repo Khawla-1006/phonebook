@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import personService from './services/person'
+import person from './services/person'
 
 const Filter = (props) =>{
   return(
@@ -39,9 +40,13 @@ const PersonForm = (props) =>{
   )
 }
 
-const Person = ({person}) =>{
+const Person = (props) =>{
+  console.log(props)
   return (
-    <li>{person.name} : {person.number}</li>
+    <li>{props.name} : {props.number} 
+
+    <button onClick={props.deletePerson}>delete</button>
+    </li>
   )
 }
 
@@ -53,10 +58,20 @@ const Persons = (props) =>{
         props.per.map(person =>{
               if(!props.val){    
                 if(person.name.toLowerCase() == props.filtered.toLowerCase()){
-                  return(<Person person={person} key={person.id}/>)
+                  return(
+                  <Person 
+                  person={person} 
+                  key={person.id}
+                  //delete person property
+                  deletePerson={person.deletePerson}
+                  />)
                 }
               }else{
-                return(<Person person={person} key={person.id}/>)
+                return(<Person 
+                  person={person} 
+                  key={person.id}
+                  
+                  />)
               }
            }
         )
@@ -88,7 +103,26 @@ const App = () =>{
   }, [])
 
 
-  // console.log('render', persons.length, 'persons');
+  const deletePerson = () => {
+    const per = persons.find(p => p.id === id)
+    const changedPerson = {...per}
+ 
+
+      personService
+      .update(id, changedPerson)
+      .then(returnedPerson => {
+        console.log(returnedPerson)
+        window.confirm(`Delete ${returnedPerson} ?`)
+        setPersons(persons.map(p => p.id !== id ? p : returnedPerson))      
+      })
+      .catch(error => {
+          alert("delete failed!")
+        }
+      )
+
+    
+  }
+  
 
 
   const addName = (event) =>{
@@ -160,7 +194,7 @@ const App = () =>{
         per={persons}
         val={val}
         filtered={filtered}
-        
+        deletePerson = {() => deletePerson()}
         />
     </div>
   )
