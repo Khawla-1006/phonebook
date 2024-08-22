@@ -81,10 +81,7 @@ const Persons = (props) =>{
   )
 }
 
-
-
 const App = () =>{
-
 
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
@@ -102,12 +99,9 @@ const App = () =>{
     })
   }, [])
 
-
   const deletePerson = () => {
     const per = persons.find(p => p.id === id)
     const changedPerson = {...per}
- 
-
       personService
       .update(id, changedPerson)
       .then(returnedPerson => {
@@ -118,13 +112,9 @@ const App = () =>{
       .catch(error => {
           alert("delete failed!")
         }
-      )
-
-    
+      )  
   }
   
-
-
   const addName = (event) =>{
     event.preventDefault();
   
@@ -168,7 +158,6 @@ const App = () =>{
     setval(false)
   }
 
-
   return(
     <div>
       <h2>Phonebook</h2>
@@ -198,9 +187,6 @@ const App = () =>{
         />
     </div>
   )
-
-
-
 }
 
 
